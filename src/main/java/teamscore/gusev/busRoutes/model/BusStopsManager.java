@@ -15,22 +15,23 @@ public class BusStopsManager {
         busStopsList = new ArrayList<BusStop>();
     }
 
-    void addBusStop(BusStop busStop) {
-        busStopsList.add(busStop);
+    static void addBusStop(BusStop busStop) {
+        if (!busStopsList.contains(busStop))
+            busStopsList.add(busStop);
     }
 
-    void editBusStop(BusStop busStopOld, BusStop busStopNew) {
+    static void editBusStop(BusStop busStopOld, BusStop busStopNew) {
         int i = busStopsList.indexOf(busStopOld);
         if (i != -1) {
             busStopsList.set(i, busStopNew);
         }
     }
 
-    void deleteBusStop(BusStop busStop) {
+    static void deleteBusStop(BusStop busStop) {
         busStopsList.remove(busStop);
     }
 
-    BusStop findBusStop(String title) {
+    static BusStop findBusStop(String title) {
         int i = 0;
         BusStop busStop;
         while (i < busStopsList.size()) {
@@ -43,7 +44,7 @@ public class BusStopsManager {
         return null;
     }
 
-    Set<Route> getAllRoutes(String title) {
+    static Set<Route> getAllRoutes(String title) {
         Set<Route> answer = new HashSet<>();
         BusStop busStop = findBusStop(title);
         if (busStop != null){
@@ -55,13 +56,14 @@ public class BusStopsManager {
                 if (fullRoute.getBusStopsList().contains(busStop)) {
                     answer.add(route);
                 }
+                j++;
             }
             return answer;
         }
         return answer;
     }
 
-    Set<Route> getAllRoutesBetween(String title1, String title2) {
+    static Set<Route> getAllRoutesBetween(String title1, String title2) {
         Set<Route> answer = new HashSet<>();
         BusStop busStop1 = findBusStop(title1);
         BusStop busStop2 = findBusStop(title2);
@@ -77,6 +79,7 @@ public class BusStopsManager {
                     if (index1 < index2)
                         answer.add(route);
                 }
+                j++;
             }
             return answer;
         }
