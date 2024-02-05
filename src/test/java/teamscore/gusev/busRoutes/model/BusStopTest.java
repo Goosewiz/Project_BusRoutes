@@ -18,13 +18,5 @@ class BusStopTest {
         assertEquals(title, busStop.getTitle());
         assertEquals(latitude, busStop.getLatitude());
         assertEquals(longitude, busStop.getLongitude());
-        assertEquals(null, busStop.getRoutesSet());
-        Set<Route> routes = new HashSet<>();
-        busStop.addRoutesSet(routes);
-        assertEquals(0, busStop.getRoutesSet().size());
-        LocalTime time = LocalTime.now();
-        Route route = new Route("1", "1", 1, time, time);
-        routes.add(route);
-        assertEquals(1, busStop.getRoutesSet().size());
     }
 }

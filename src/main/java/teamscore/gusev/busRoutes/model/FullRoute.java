@@ -57,7 +57,6 @@ public class FullRoute {
     FullRoute copyFullRoute(){
         Route routeNew = new Route(route.getNumber(), "скопированный", route.getInterval(), route.getTimeStart(), route.getTimeEnd());
         LinkedList<BusAtStop> listNew = new LinkedList<>(busAtStopList);
-        Collections.reverse(listNew);
         FullRoute fullRouteNew = new FullRoute(listNew, routeNew);
         return fullRouteNew;
     }

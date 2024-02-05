@@ -26,8 +26,7 @@ public class RoutesManager {
     }
 
     List<Route> getRoutes(String numberOfRoute) {
-        List<Route> answer = new ArrayList<>();
-        int i = 0;
+        List<Route> answer;
         Stream<Route> stream = routesList.stream();
         answer = stream.filter(p -> p.getNumber().equals(numberOfRoute))
                 .toList();

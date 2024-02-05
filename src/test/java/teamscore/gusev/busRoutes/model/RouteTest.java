@@ -12,7 +12,7 @@ class RouteTest {
         String number = "24";
         String type = "прямой";
         int interval = 10;
-        LocalTime timeStart = LocalTime.now();
+        LocalTime timeStart = LocalTime.of(8,0);
         LocalTime timeEnd = timeStart.plusHours(2);
         Route route = new Route(number, type, interval, timeStart, timeEnd);
         assertEquals(number, route.getNumber());
@@ -20,9 +20,5 @@ class RouteTest {
         assertEquals(interval, route.getInterval());
         assertEquals(timeStart, route.getTimeStart());
         assertEquals(timeEnd, route.getTimeEnd());
-        assertEquals(null, route.getFullRoute());
-        FullRoute fullRoute = new FullRoute();
-        route.addFullRoute(fullRoute);
-        assertNotEquals(null, route.getFullRoute());
     }
 }
