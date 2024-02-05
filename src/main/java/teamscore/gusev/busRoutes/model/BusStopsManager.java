@@ -2,87 +2,61 @@ package teamscore.gusev.busRoutes.model;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class BusStopsManager {
     @Getter
-    private static List<BusStop> busStopsList;
+    private static final List<BusStop> busStopsList = new ArrayList<>();
 
-    BusStopsManager() {
-        busStopsList = new ArrayList<BusStop>();
-    }
-
-    static void addBusStop(BusStop busStop) {
+    void addBusStop(BusStop busStop) {
         if (!busStopsList.contains(busStop))
             busStopsList.add(busStop);
     }
 
-    static void editBusStop(BusStop busStopOld, BusStop busStopNew) {
-        int i = busStopsList.indexOf(busStopOld);
-        if (i != -1) {
-            busStopsList.set(i, busStopNew);
-        }
+    void editBusStop(BusStop busStop, int position) {
+        if (busStopsList.size() > position)
+            busStopsList.set(position, busStop);
     }
 
-    static void deleteBusStop(BusStop busStop) {
+    void deleteBusStop(BusStop busStop) {
         busStopsList.remove(busStop);
     }
 
-    static BusStop findBusStop(String title) {
-        int i = 0;
-        BusStop busStop;
-        while (i < busStopsList.size()) {
-            busStop = busStopsList.get(i);
-            if (busStop.getTitle().equals(title)) {
-                return busStop;
-            }
-            i++;
+    BusStop findBusStop(String title) {
+        Stream<BusStop> stream = busStopsList.stream();
+        Optional busStop = stream.filter(p -> p.getTitle() == title)
+                .findFirst();
+        BusStop answer = (BusStop) busStop.get();
+        return answer;
+    }
+
+    FullRoute[] getAllRoutes(String title) {
+        BusStop busStop = findBusStop(title);
+        List<FullRoute> answerB;
+        if (busStop != null) {
+            List<FullRoute> fullRouteList = FullRouteManager.getFullRouteList();
+            Stream<FullRoute> stream = fullRouteList.stream();
+            answerB = stream.filter(p -> p.getBusAtStopList().contains(busStop))
+                    .toList();
+            FullRoute[] answer = (FullRoute[]) answerB.toArray();
+            return answer;
         }
         return null;
     }
 
-    static Set<Route> getAllRoutes(String title) {
-        Set<Route> answer = new HashSet<>();
-        BusStop busStop = findBusStop(title);
-        if (busStop != null){
-            List<Route> allRoutes = RoutesManager.getRoutesList();
-            int j = 0;
-            while (j < allRoutes.size()) {
-                Route route = allRoutes.get(j);
-                FullRoute fullRoute = route.getFullRoute();
-                if (fullRoute.getBusStopsList().contains(busStop)) {
-                    answer.add(route);
-                }
-                j++;
-            }
-            return answer;
-        }
-        return answer;
-    }
-
-    static Set<Route> getAllRoutesBetween(String title1, String title2) {
-        Set<Route> answer = new HashSet<>();
+    FullRoute[] getAllRoutesBetween(String title1, String title2) {
         BusStop busStop1 = findBusStop(title1);
         BusStop busStop2 = findBusStop(title2);
-        if (busStop1 != null && busStop2 != null){
-            List<Route> allRoutes = RoutesManager.getRoutesList();
-            int j = 0;
-            while (j < allRoutes.size()) {
-                Route route = allRoutes.get(j);
-                FullRoute fullRoute = route.getFullRoute();
-                if (fullRoute.getBusStopsList().contains(busStop1) && fullRoute.getBusStopsList().contains(busStop2)) {
-                    int index1 = fullRoute.getBusStopsList().indexOf(busStop1);
-                    int index2 = fullRoute.getBusStopsList().indexOf(busStop2);
-                    if (index1 < index2)
-                        answer.add(route);
-                }
-                j++;
-            }
+        List<FullRoute> answerB;
+        if (busStop1 != null && busStop2 != null) {
+            List<FullRoute> fullRouteList = FullRouteManager.getFullRouteList();
+            Stream<FullRoute> stream = fullRouteList.stream();
+            answerB = stream.filter(p -> (p.getBusAtStopList().contains(busStop1) && p.getBusAtStopList().contains(busStop2)))
+                    .toList();
+            FullRoute[] answer = (FullRoute[]) answerB.toArray();
             return answer;
         }
-        return answer;
+        return null;
     }
 }

@@ -1,42 +1,66 @@
 package teamscore.gusev.busRoutes.model;
 
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalTime;
+import java.util.Collections;
 import java.util.LinkedList;
 
+@RequiredArgsConstructor
 public class FullRoute {
     @Getter
-    private LinkedList<BusStop> busStopsList;
+    @Setter
+    @NonNull
+    private LinkedList<BusAtStop> busAtStopList;//final
     @Getter
-    private LinkedList<LocalTime> timeToReachBusStop;
+    @Setter
+    @NonNull
+    private Route route;
 
-    FullRoute() {
-        busStopsList = new LinkedList<>();
-        timeToReachBusStop = new LinkedList<>();
+    boolean isUsed(BusAtStop busAtStop) {
+        return (busAtStopList.contains(busAtStop));
     }
 
-    boolean isUsed(BusStop busStop) {
-        return (busStopsList.contains(busStop));
-    }
-
-    void addInfo(BusStop busStop, LocalTime time) {
-        if (!isUsed(busStop)) {
-            busStopsList.add(busStop);
-            timeToReachBusStop.add(time);
+    void addBusAtStop(BusAtStop busAtStop) {
+        if (!isUsed(busAtStop)) {
+            busAtStopList.add(busAtStop);
         }
     }
 
-    void editInfo(BusStop busStop, LocalTime time) {
-        int i = busStopsList.indexOf(busStop);
-        if (i != -1)
-            timeToReachBusStop.set(i, time);
+    void editBusAtStop(BusAtStop busAtStop, int position) {
+        if (busAtStopList.size() > position)
+            busAtStopList.set(position, busAtStop);
     }
 
-    void deleteInfo(BusStop busStop) {
-        int i = busStopsList.indexOf(busStop);
-        busStopsList.remove(busStop);
-        if (i != -1)
-            timeToReachBusStop.remove(i);
+    void deleteBusAtStop(BusAtStop busAtStop) {
+        busAtStopList.remove(busAtStop);
+    }
+
+   /* boolean findFullRouteByStop(String title){
+        for(BusAtStop busAtStop: busAtStopList){
+            if (busAtStop.getBusStop().getTitle() == title)
+                return true;
+        }
+        return false;
+    }*/
+
+    FullRoute reverseFullRoute() {
+        Route routeNew = new Route(route.getNumber(), "обратный", route.getInterval(), route.getTimeStart(), route.getTimeEnd());
+        LinkedList<BusAtStop> listNew = new LinkedList<>(busAtStopList);
+        Collections.reverse(listNew);
+        FullRoute fullRouteNew = new FullRoute(listNew, routeNew);
+        FullRouteManager.addFullRoute(fullRouteNew);
+        return fullRouteNew;
+    }
+
+    FullRoute copyFullRoute(){
+        Route routeNew = new Route(route.getNumber(), "скопированный", route.getInterval(), route.getTimeStart(), route.getTimeEnd());
+        LinkedList<BusAtStop> listNew = new LinkedList<>(busAtStopList);
+        Collections.reverse(listNew);
+        FullRoute fullRouteNew = new FullRoute(listNew, routeNew);
+        FullRouteManager.addFullRoute(fullRouteNew);
+        return fullRouteNew;
     }
 }

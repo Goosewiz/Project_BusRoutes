@@ -29,10 +29,4 @@ public class Route {
     @Setter
     @NonNull
     private LocalTime timeEnd;
-    @Getter
-    private FullRoute fullRoute;
-
-    void addFullRoute(FullRoute fullRoute) {
-        this.fullRoute = fullRoute;
-    }
 }

@@ -5,20 +5,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @RequiredArgsConstructor
-public class BusStop {
+public class BusAtStop {
     @Getter
     @Setter
     @NonNull
-    private String title;
+    private BusStop busStop;
     @Getter
     @Setter
     @NonNull
-    private double latitude;
-    @Getter
-    @Setter
-    @NonNull
-    private double longitude;
+    private int time;
 }
