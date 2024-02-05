@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class RoutesManager {
     @Getter
-    private static final List<Route> routesList = new ArrayList<>();
+    private final List<Route> routesList = new ArrayList<>();
 
     void addRoute(Route route) {
         if (!routesList.contains(route))

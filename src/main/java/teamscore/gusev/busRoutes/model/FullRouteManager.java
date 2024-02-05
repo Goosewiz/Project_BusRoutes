@@ -8,11 +8,11 @@ import java.util.List;
 public class FullRouteManager {
     @Getter
     private static final List<FullRoute> fullRouteList = new ArrayList<>();
-    static void addFullRoute(FullRoute fullRoute){
+    void addFullRoute(FullRoute fullRoute){
         if (!fullRouteList.contains(fullRoute))
             fullRouteList.add(fullRoute);
     }
-    static void deleteFullRoute(FullRoute fullRoute){
+    void deleteFullRoute(FullRoute fullRoute){
         fullRouteList.remove(fullRoute);
     }
 }

@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 public class BusStopsManager {
     @Getter
-    private static final List<BusStop> busStopsList = new ArrayList<>();
+    private final List<BusStop> busStopsList = new ArrayList<>();
 
     void addBusStop(BusStop busStop) {
         if (!busStopsList.contains(busStop))

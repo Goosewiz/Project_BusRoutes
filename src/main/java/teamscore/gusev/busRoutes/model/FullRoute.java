@@ -13,7 +13,7 @@ public class FullRoute {
     @Getter
     @Setter
     @NonNull
-    private LinkedList<BusAtStop> busAtStopList;//final
+    private final LinkedList<BusAtStop> busAtStopList;
     @Getter
     @Setter
     @NonNull
@@ -51,7 +51,6 @@ public class FullRoute {
         LinkedList<BusAtStop> listNew = new LinkedList<>(busAtStopList);
         Collections.reverse(listNew);
         FullRoute fullRouteNew = new FullRoute(listNew, routeNew);
-        FullRouteManager.addFullRoute(fullRouteNew);
         return fullRouteNew;
     }
 
@@ -60,7 +59,6 @@ public class FullRoute {
         LinkedList<BusAtStop> listNew = new LinkedList<>(busAtStopList);
         Collections.reverse(listNew);
         FullRoute fullRouteNew = new FullRoute(listNew, routeNew);
-        FullRouteManager.addFullRoute(fullRouteNew);
         return fullRouteNew;
     }
 }
