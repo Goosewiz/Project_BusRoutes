@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FullRouteTest {
+class RouteWithStopsTest {
     private BusStop busStop1;
     private BusStop busStop2;
     private BusStop busStop3;
@@ -60,48 +60,56 @@ class FullRouteTest {
     }
     void makeBusAtStopData(){
         busAtStop1 = new BusAtStop(busStop1, 10);
-        busAtStop2 = new BusAtStop(busStop2, 9);
-        busAtStop3 = new BusAtStop(busStop3, 8);
-        busAtStop4 = new BusAtStop(busStop4, 7);
+        busAtStop2 = new BusAtStop(busStop2, 19);
+        busAtStop3 = new BusAtStop(busStop3, 27);
+        busAtStop4 = new BusAtStop(busStop4, 33);
         list1.add(busAtStop1);
         list1.add(busAtStop2);
     }
     @Test
-    void createFullRoute(){
+    void createRouteWithStops(){
         makeBusStopData();
         makeRouteData();
         makeBusAtStopData();
-        FullRoute fullRoute = new FullRoute(list1, route1);
-        assertEquals(list1, fullRoute.getBusAtStopList());
-        assertEquals(route1, fullRoute.getRoute());
-        assertEquals(2, fullRoute.getBusAtStopList().size());
-        fullRoute.addBusAtStop(busAtStop3);
-        assertEquals(3, fullRoute.getBusAtStopList().size());
-        assertEquals(busAtStop3, fullRoute.getBusAtStopList().get(2));
-        fullRoute.editBusAtStop(busAtStop4, 2);
-        assertEquals(busAtStop4, fullRoute.getBusAtStopList().get(2));
-        assertEquals(3, fullRoute.getBusAtStopList().size());
-        fullRoute.deleteBusAtStop(busAtStop4);
-        assertEquals(2, fullRoute.getBusAtStopList().size());
+        RouteWithStops routeWithStops = new RouteWithStops(list1, route1);
+        assertEquals(list1, routeWithStops.getBusAtStopList());
+        assertEquals(route1, routeWithStops.getRoute());
+        assertEquals(2, routeWithStops.getBusAtStopList().size());
+        routeWithStops.addBusAtStop(busAtStop3);
+        assertEquals(3, routeWithStops.getBusAtStopList().size());
+        assertEquals(busAtStop3, routeWithStops.getBusAtStopList().get(2));
+        routeWithStops.deleteBusAtStop(busAtStop3);
+        assertEquals(2, routeWithStops.getBusAtStopList().size());
     }
     @Test
     void reverseFullRoute(){
         makeBusStopData();
         makeRouteData();
         makeBusAtStopData();
-        FullRoute fullRoute = new FullRoute(list1, route1);
-        FullRoute fullRoute2 = fullRoute.reverseFullRoute();
-        assertEquals("обратный", fullRoute2.getRoute().getType());
-        assertEquals(busAtStop2, fullRoute2.getBusAtStopList().get(0));
+        RouteWithStops routeWithStops = new RouteWithStops(list1, route1);
+        RouteWithStops routeWithStops2 = routeWithStops.reverseRouteWithStops();
+        assertEquals(routeWithStops.getRoute().getNumber(),routeWithStops2.getRoute().getNumber());
+        assertEquals("обратный",routeWithStops2.getRoute().getType());
+        assertEquals(busAtStop2, routeWithStops2.getBusAtStopList().get(0));
     }
     @Test
     void copyFullRoute(){
         makeBusStopData();
         makeRouteData();
         makeBusAtStopData();
-        FullRoute fullRoute = new FullRoute(list1, route1);
-        FullRoute fullRoute2 = fullRoute.copyFullRoute();
-        assertEquals("скопированный", fullRoute2.getRoute().getType());
-        assertEquals(busAtStop1, fullRoute2.getBusAtStopList().get(0));
+        RouteWithStops routeWithStops = new RouteWithStops(list1, route1);
+        RouteWithStops routeWithStops2 = routeWithStops.copyRouteWithStops();
+        assertEquals(routeWithStops.getRoute().getNumber(),routeWithStops2.getRoute().getNumber());
+        assertEquals("скопированный",routeWithStops2.getRoute().getType());
+        assertEquals(busAtStop1, routeWithStops2.getBusAtStopList().get(0));
+    }
+    @Test
+    void getTimeByBusStop() {
+        makeBusStopData();
+        makeRouteData();
+        makeBusAtStopData();
+        RouteWithStops routeWithStops = new RouteWithStops(list1, route1);
+        LocalTime answer = routeWithStops.getTimeByBusStop(busStop1);
+        assertEquals(10, answer.getMinute());
     }
 }

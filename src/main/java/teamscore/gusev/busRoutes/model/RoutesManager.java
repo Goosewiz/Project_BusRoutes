@@ -8,27 +8,20 @@ import java.util.stream.Stream;
 
 public class RoutesManager {
     @Getter
-    private final List<Route> routesList = new ArrayList<>();
-
-    void addRoute(Route route) {
-        if (!routesList.contains(route))
-            routesList.add(route);
+    private final List<RouteWithStops> routeWithStopsList = new ArrayList<>();
+    void addRouteWithStops(RouteWithStops routeWithStops){
+        if (!routeWithStopsList.contains(routeWithStops))
+            routeWithStopsList.add(routeWithStops);
+    }
+    void deleteRouteWithStops(RouteWithStops routeWithStops){
+        routeWithStopsList.remove(routeWithStops);
     }
 
-    void editRoute(Route route, int position) {
-        if (routesList.size() > position) {
-            routesList.set(position, route);
-        }
-    }
 
-    void deleteRoute(Route route) {
-        routesList.remove(route);
-    }
-
-    List<Route> getRoutes(String numberOfRoute) {
-        List<Route> answer;
-        Stream<Route> stream = routesList.stream();
-        answer = stream.filter(p -> p.getNumber().equals(numberOfRoute))
+    List<RouteWithStops> getRoutes(String numberOfRoute) {
+        List<RouteWithStops> answer;
+        Stream<RouteWithStops> stream = routeWithStopsList.stream();
+        answer = stream.filter(p -> p.getRoute().getNumber().equals(numberOfRoute))
                 .toList();
         return answer;
     }

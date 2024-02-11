@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +19,9 @@ class BusStopsManagerTest {
     private BusAtStop busAtStop2;
     private BusAtStop busAtStop3;
     private BusAtStop busAtStop4;
+    private RouteWithStops routeWithStops1;
+    private RouteWithStops routeWithStops2;
+    private RouteWithStops routeWithStops3;
     private LinkedList<BusAtStop> list1 = new LinkedList<>();
     private LinkedList<BusAtStop> list2 = new LinkedList<>();
     private LinkedList<BusAtStop> list3 = new LinkedList<>();
@@ -64,9 +65,9 @@ class BusStopsManagerTest {
     }
     void makeBusAtStopData(){
         busAtStop1 = new BusAtStop(busStop1, 10);
-        busAtStop2 = new BusAtStop(busStop2, 9);
-        busAtStop3 = new BusAtStop(busStop3, 8);
-        busAtStop4 = new BusAtStop(busStop4, 7);
+        busAtStop2 = new BusAtStop(busStop2, 19);
+        busAtStop3 = new BusAtStop(busStop3, 27);
+        busAtStop4 = new BusAtStop(busStop4, 33);
         list1.add(busAtStop1);
         list1.add(busAtStop2);
         list2.add(busAtStop1);
@@ -76,6 +77,20 @@ class BusStopsManagerTest {
         list3.add(busAtStop2);
         list3.add(busAtStop3);
         list3.add(busAtStop4);
+    }
+    void makeRouteWithStopsData(){
+        routeWithStops1 = new RouteWithStops(list1, route1);
+        for(BusAtStop busAtStop : list1){
+            busAtStop.getBusStop().addRoute(routeWithStops1.getRoute());
+        }
+        routeWithStops2 = new RouteWithStops(list2, route2);
+        for(BusAtStop busAtStop : list2){
+            busAtStop.getBusStop().addRoute(routeWithStops2.getRoute());
+        }
+        routeWithStops3 = new RouteWithStops(list3, route3);
+        for(BusAtStop busAtStop : list3){
+            busAtStop.getBusStop().addRoute(routeWithStops3.getRoute());
+        }
     }
     @Test
     void createBusStopsManager(){
@@ -90,61 +105,29 @@ class BusStopsManagerTest {
         busStopsManager.addBusStop(busStop4);
         assertEquals(4, busStopsManager.getBusStopsList().size());
         assertEquals(busStop2, busStopsManager.getBusStopsList().get(1));
-        busStopsManager.editBusStop(busStop3, 1);
-        assertEquals(busStop3, busStopsManager.getBusStopsList().get(1));
         busStopsManager.deleteBusStop(busStop1);
         assertEquals(3, busStopsManager.getBusStopsList().size());
-    }
-    @Test
-    void getAllRoutes(){
-        makeRouteData();
-        makeBusStopData();
-        makeBusAtStopData();
-        BusStopsManager busStopsManager = new BusStopsManager();
-        busStopsManager.addBusStop(busStop1);
-        busStopsManager.addBusStop(busStop2);
-        busStopsManager.addBusStop(busStop3);
-        busStopsManager.addBusStop(busStop4);
-        RoutesManager routesManager = new RoutesManager();
-        routesManager.addRoute(route1);
-        routesManager.addRoute(route2);
-        routesManager.addRoute(route3);
-        FullRoute fullRoute1 = new FullRoute(list1, route1);
-        FullRoute fullRoute2 = new FullRoute(list2, route2);
-        FullRoute fullRoute3 = new FullRoute(list3, route3);
-        FullRouteManager fullRouteManager = new FullRouteManager();
-        fullRouteManager.addFullRoute(fullRoute1);
-        fullRouteManager.addFullRoute(fullRoute2);
-        fullRouteManager.addFullRoute(fullRoute3);
-        FullRoute[] answer = busStopsManager.getAllRoutes("Метро Московская");
-        assertEquals(3, answer.length);
-        answer = busStopsManager.getAllRoutes("пл. Памяти");
-        assertEquals(1, answer.length);
     }
     @Test
     void getAllRoutesBetween(){
         makeRouteData();
         makeBusStopData();
         makeBusAtStopData();
+        makeRouteWithStopsData();
         BusStopsManager busStopsManager = new BusStopsManager();
         busStopsManager.addBusStop(busStop1);
         busStopsManager.addBusStop(busStop2);
         busStopsManager.addBusStop(busStop3);
         busStopsManager.addBusStop(busStop4);
         RoutesManager routesManager = new RoutesManager();
-        routesManager.addRoute(route1);
-        routesManager.addRoute(route2);
-        routesManager.addRoute(route3);
-        FullRoute fullRoute1 = new FullRoute(list1, route1);
-        FullRoute fullRoute2 = new FullRoute(list2, route2);
-        FullRoute fullRoute3 = new FullRoute(list3, route3);
-        FullRouteManager fullRouteManager = new FullRouteManager();
-        fullRouteManager.addFullRoute(fullRoute1);
-        fullRouteManager.addFullRoute(fullRoute2);
-        fullRouteManager.addFullRoute(fullRoute3);
-        FullRoute[] answer = busStopsManager.getAllRoutesBetween("Метро Московская", "пл. Памяти");
-        assertEquals(1, answer.length);
-        answer = busStopsManager.getAllRoutesBetween("Клиники Медуниверситета (ул. Гагарина)", "Метро Московская");
+        routesManager.addRouteWithStops(routeWithStops1);
+        routesManager.addRouteWithStops(routeWithStops2);
+        routesManager.addRouteWithStops(routeWithStops3);
+        Route[] answer = busStopsManager.getAllRoutesBetween(busStop1, busStop2);
         assertEquals(3, answer.length);
+        String title1 = "Клиники Медуниверситета (ул. Гагарина)";
+        String title2 = "пл. Памяти";
+        answer = busStopsManager.getAllRoutesBetween(title1, title2);
+        assertEquals(1, answer.length);
     }
 }

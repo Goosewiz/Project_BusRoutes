@@ -2,6 +2,8 @@ package teamscore.gusev.busRoutes.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BusAtStopTest {
@@ -18,5 +20,8 @@ class BusAtStopTest {
         BusAtStop busAtStop1 = new BusAtStop(busStop1, 9);
         assertEquals(busStop1, busAtStop1.getBusStop());
         assertEquals(9, busAtStop1.getTime());
+        LocalTime localTime = LocalTime.of(2,0);
+        localTime = busAtStop1.getArrivalTime(localTime);
+        assertEquals(9, localTime.getMinute());
     }
 }
