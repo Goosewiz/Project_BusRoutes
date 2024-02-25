@@ -26,12 +26,10 @@ public class BusStopsManager {
     }
 
     BusStop findBusStop(String title) {
-        Stream<BusStop> stream = busStopsList.stream();
-        Optional busStop = stream.filter(p -> p.getTitle() == title)
-                .findFirst();
-        BusStop answer = (BusStop) busStop.get();
-        if (answer == null)
-            throw new RuntimeException("Нет такой остановки");
+        String search = "%" + title + "%";
+        BusStop answer = entityManager.createQuery("from bus_stop.bus_stop where title ilike :search", BusStop.class)
+                .setParameter("search", search)
+                .getSingleResult();
         return answer;
     }
 

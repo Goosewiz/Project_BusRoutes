@@ -34,7 +34,7 @@ public class BusStop {
     @Getter
     @Setter
     @NonNull
-    @Column(name = "longitude")
+    @Column(name = "longitude", nullable = false)
     private double longitude;
 
     @Getter
