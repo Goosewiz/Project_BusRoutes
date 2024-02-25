@@ -1,23 +1,28 @@
 package teamscore.gusev.busRoutes.model;
 
+import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 import java.util.stream.Stream;
-
+@RequiredArgsConstructor
 public class BusStopsManager {
     @Getter
     private final List<BusStop> busStopsList = new ArrayList<>();
+    private final EntityManager entityManager;
 
     void addBusStop(BusStop busStop) {
-        if (!busStopsList.contains(busStop))
-            busStopsList.add(busStop);
+        entityManager.getTransaction().begin();
+        entityManager.persist(busStop);
+        entityManager.getTransaction().commit();
     }
 
     void deleteBusStop(BusStop busStop) {
-        if (busStop.getRoutesSet().size() == 0)
-            busStopsList.remove(busStop);
+        entityManager.getTransaction().begin();
+        entityManager.remove(busStop);
+        entityManager.getTransaction().commit();
     }
 
     BusStop findBusStop(String title) {

@@ -122,7 +122,7 @@ class RoutesManagerTest {
         routesManager.addRouteWithStops(routeWithStops1);
         routesManager.addRouteWithStops(routeWithStops2);
         routesManager.addRouteWithStops(routeWithStops3);
-        List<RouteWithStops> answer = routesManager.getRoutes("24");
+        List<Route> answer = routesManager.getRoutes("24");
         assertEquals(2, answer.size());
         answer = routesManager.getRoutes("41");
         assertEquals(1, answer.size());

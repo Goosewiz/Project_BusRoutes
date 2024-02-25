@@ -1,5 +1,8 @@
 package teamscore.gusev.busRoutes.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +17,12 @@ public class RouteWithStops {
     @Getter
     @Setter
     @NonNull
+    @OneToMany(mappedBy = "bus_at_stop.bus_stop", cascade = CascadeType.ALL)
     private final List<BusAtStop> busAtStopList;
     @Getter
     @Setter
     @NonNull
+    @OneToOne(mappedBy = "route.route", cascade = CascadeType.ALL)
     private Route route;
 
     public boolean isUsed(BusStop busStop) {
