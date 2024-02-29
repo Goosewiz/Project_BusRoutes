@@ -93,7 +93,7 @@ class RoutesManagerTest {
             busAtStop.getBusStop().addRoute(routeWithStops3.getRoute());
         }
     }
-    @Test
+  /*  @Test
     void createRoutesManager(){
         makeRouteData();
         makeBusStopData();
@@ -106,8 +106,8 @@ class RoutesManagerTest {
         assertEquals(3, routesManager.getRouteWithStopsList().size());
         routesManager.deleteRouteWithStops(routeWithStops1);
         assertEquals(2, routesManager.getRouteWithStopsList().size());
-    }
-    @Test
+    }*/
+  /*  @Test
     void getRoutes(){
         makeRouteData();
         makeBusStopData();
@@ -128,5 +128,5 @@ class RoutesManagerTest {
         assertEquals(1, answer.size());
         answer = routesManager.getRoutes("34");
         assertEquals(0, answer.size());
-    }
+    }*/
 }

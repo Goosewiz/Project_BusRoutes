@@ -1,7 +1,3 @@
-truncate table "bus_stop"."bus_stop" cascade;
-truncate table "bus_stop"."bus_at_stop" cascade;
-truncate table "route"."route" cascade;
-
 insert into "bus_stop"."bus_stop"(id, title, latitude, longitude) values
 (1,	'Автостанция Аврора',	53.19167048719369,	50.188571236918406),
 (2,	'Волгина',	53.191580276308606,	50.18455865223211),

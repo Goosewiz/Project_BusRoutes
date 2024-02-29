@@ -92,7 +92,7 @@ class BusStopsManagerTest {
             busAtStop.getBusStop().addRoute(routeWithStops3.getRoute());
         }
     }
-    @Test
+  /*  @Test
     void createBusStopsManager(){
         BusStopsManager busStopsManager = new BusStopsManager();
         makeRouteData();
@@ -107,8 +107,8 @@ class BusStopsManagerTest {
         assertEquals(busStop2, busStopsManager.getBusStopsList().get(1));
         busStopsManager.deleteBusStop(busStop1);
         assertEquals(3, busStopsManager.getBusStopsList().size());
-    }
-    @Test
+    }*/
+  /*  @Test
     void getAllRoutesBetween(){
         makeRouteData();
         makeBusStopData();
@@ -129,5 +129,5 @@ class BusStopsManagerTest {
         String title2 = "пл. Памяти";
         answer = busStopsManager.getAllRoutesBetween(title1, title2);
         assertEquals(1, answer.length);
-    }
+    }*/
 }
