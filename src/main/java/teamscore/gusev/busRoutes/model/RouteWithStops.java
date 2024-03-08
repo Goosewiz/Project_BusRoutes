@@ -17,12 +17,10 @@ public class RouteWithStops {
     @Getter
     @Setter
     @NonNull
-    @OneToMany(mappedBy = "bus_at_stop.bus_stop", cascade = CascadeType.ALL)
     private final List<BusAtStop> busAtStopList;
     @Getter
     @Setter
     @NonNull
-    @OneToOne(mappedBy = "route.route", cascade = CascadeType.ALL)
     private Route route;
 
     public boolean isUsed(BusStop busStop) {
@@ -35,7 +33,8 @@ public class RouteWithStops {
         BusStop busStop = busAtStop.getBusStop();
         if (!isUsed(busStop)) {
             busAtStopList.add(busAtStop);
-            busStop.addRoute(this.getRoute());
+            //busStop.addRoute(this.getRoute());
+            //busStop.addRoute(busAtStop);
         }
     }
 

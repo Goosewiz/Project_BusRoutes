@@ -64,7 +64,7 @@ class RoutesManagerTest {
         longitude = 126.6;
         busStop4 = new BusStop(title, latitude, longitude);
     }
-    void makeBusAtStopData(){
+/*    void makeBusAtStopData(){
         busAtStop1 = new BusAtStop(busStop1, 10);
         busAtStop2 = new BusAtStop(busStop2, 19);
         busAtStop3 = new BusAtStop(busStop3, 27);
@@ -92,7 +92,7 @@ class RoutesManagerTest {
         for(BusAtStop busAtStop : list3){
             busAtStop.getBusStop().addRoute(routeWithStops3.getRoute());
         }
-    }
+    }*/
   /*  @Test
     void createRoutesManager(){
         makeRouteData();

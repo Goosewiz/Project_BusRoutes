@@ -38,17 +38,17 @@ public class BusStop {
     private double longitude;
 
     @Getter
-    @OneToMany(mappedBy = "route.route", cascade = CascadeType.ALL)
-    private Set<Route> routesSet = new HashSet<>();
-    public void addRoute(Route route){
-        routesSet.add(route);
-    }
+    @OneToMany(mappedBy = "bus_stop_id", cascade = CascadeType.ALL)
+    private Set<BusAtStop> busAtStopSet = new HashSet<>();
+   // public void addRoute(Route route){
+   //     routesSet.add(route);
+   // }
     public void removeRoute(Route route){
-        routesSet.remove(route);
+        busAtStopSet.remove(route);
     }
     public Route[] getAllRoutes(){
-        Route[] answer = new Route[routesSet.size()];
-        answer = routesSet.toArray(answer);
+        Route[] answer = new Route[busAtStopSet.size()];
+        answer = busAtStopSet.toArray(answer);
         return answer;
     }
 }

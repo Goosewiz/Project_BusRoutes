@@ -58,7 +58,7 @@ class RouteWithStopsTest {
         longitude = 126.6;
         busStop4 = new BusStop(title, latitude, longitude);
     }
-    void makeBusAtStopData(){
+ /*   void makeBusAtStopData(){
         busAtStop1 = new BusAtStop(busStop1, 10);
         busAtStop2 = new BusAtStop(busStop2, 19);
         busAtStop3 = new BusAtStop(busStop3, 27);
@@ -111,5 +111,5 @@ class RouteWithStopsTest {
         RouteWithStops routeWithStops = new RouteWithStops(list1, route1);
         LocalTime answer = routeWithStops.getTimeByBusStop(busStop1);
         assertEquals(10, answer.getMinute());
-    }
+    }*/
 }

@@ -50,5 +50,4 @@ public class NewTest {
         BusStop result = manager.findBusStop(number);
         assertEquals(number, result.getTitle());
     }
-    //org.hibernate.AnnotationException: Association 'teamscore.gusev.busRoutes.model.BusStop.routesSet' targets the type 'teamscore.gusev.busRoutes.model.Route' which is not an '@Entity' type
 }

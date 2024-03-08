@@ -49,9 +49,9 @@ class BusStopTest {
         double latitude = 122.45;
         double longitude = 123.6;
         BusStop busStop = new BusStop(title, latitude, longitude);
-        busStop.addRoute(route1);
-        busStop.addRoute(route2);
-        busStop.addRoute(route3);
+       // busStop.addRoute(route1);
+       // busStop.addRoute(route2);
+       // busStop.addRoute(route3);
         Route[] answer = busStop.getAllRoutes();
         assertEquals(3, answer.length);
         busStop.removeRoute(route3);

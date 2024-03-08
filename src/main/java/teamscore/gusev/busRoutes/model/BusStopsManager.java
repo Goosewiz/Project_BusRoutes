@@ -41,8 +41,12 @@ public class BusStopsManager {
     }
 
     Route[] getAllRoutesBetween(@NonNull BusStop busStop1, @NonNull BusStop busStop2) {
-        Set<Route> temp = busStop1.getRoutesSet();
-        temp.retainAll(busStop2.getRoutesSet());
+        Set<BusAtStop> tmp = busStop1.getBusAtStopSet();
+        Set<Route> temp = new HashSet<>();
+        for(BusAtStop busAtStop: tmp){
+            temp.add(busAtStop.getRoute());
+        }
+        temp.retainAll(busStop2.getBusAtStopSet());
         Route[] answer = new Route[temp.size()];
         answer = temp.toArray(answer);
         return answer;
