@@ -6,7 +6,7 @@
         -->
         <!-- Connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost/bus_routes</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost/bus_routes_test</property>
         <property name="hibernate.connection.username">bus_routes_user</property>
         <property name="hibernate.connection.password">bus_routes</property>
         <!-- Print executed SQL to stdout -->

@@ -26,7 +26,7 @@ public class RoutesManager {
     List<Route> getRoutes(String numberOfRoute) {
         List<Route> answer;
         String number = "%" + numberOfRoute + "%";
-        answer = entityManager.createQuery("from route.route where number ilike :number", Route.class)
+        answer = entityManager.createQuery("from RouteWithStops where route.number ilike :number", Route.class)
                 .setParameter("number", number)
                 .getResultList();
         return answer;

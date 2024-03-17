@@ -27,7 +27,7 @@ public class BusStopsManager {
 
     BusStop findBusStop(String title) {
         String search = "%" + title + "%";
-        BusStop answer = entityManager.createQuery("from bus_stop.bus_stop where title ilike :search", BusStop.class)
+        BusStop answer = entityManager.createQuery("from BusStop where title ilike :search", BusStop.class)
                 .setParameter("search", search)
                 .getSingleResult();
         return answer;
@@ -41,12 +41,17 @@ public class BusStopsManager {
     }
 
     Route[] getAllRoutesBetween(@NonNull BusStop busStop1, @NonNull BusStop busStop2) {
-        Set<BusAtStop> tmp = busStop1.getBusAtStopSet();
-        Set<Route> temp = new HashSet<>();
-        for(BusAtStop busAtStop: tmp){
-            temp.add(busAtStop.getRoute());
+        List<BusAtStop> stops1 = busStop1.getBusAtStopList();
+        List<Route> temp = new LinkedList<>();
+        for(BusAtStop busAtStop: stops1){
+            temp.add(busAtStop.getPk().getRouteWithStops().getRoute());
         }
-        temp.retainAll(busStop2.getBusAtStopSet());
+        List<BusAtStop> stops2 = busStop1.getBusAtStopList();
+        List<Route> temp2 = new LinkedList<>();
+        for(BusAtStop busAtStop: stops2){
+            temp2.add(busAtStop.getPk().getRouteWithStops().getRoute());
+        }
+        temp.retainAll(temp2);
         Route[] answer = new Route[temp.size()];
         answer = temp.toArray(answer);
         return answer;

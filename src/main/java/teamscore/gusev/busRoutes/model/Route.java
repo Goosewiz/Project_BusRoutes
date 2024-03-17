@@ -1,23 +1,14 @@
 package teamscore.gusev.busRoutes.model;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import jakarta.persistence.*;
-import org.hibernate.*;
 
 import java.time.LocalTime;
 
 @RequiredArgsConstructor
-@Entity
-@Table(name = "route", schema = "route")
+@NoArgsConstructor
 @Embeddable
 public class Route {
-    @Getter
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private long id;
 
     @Getter
     @Setter
