@@ -1,41 +1,52 @@
 package teamscore.gusev.busRoutes.model;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "route", schema = "route")
 public class RouteWithStops {
+    @Getter
+    @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    private long id;
     @Getter
     @Setter
     @NonNull
-    private final List<BusAtStop> busAtStopList;
+    @OneToMany(mappedBy = "pk.routeWithStops", cascade = CascadeType.ALL)
+    private List<BusAtStop> busAtStopList;
+    @Embedded
     @Getter
     @Setter
     @NonNull
     private Route route;
 
     public boolean isUsed(BusStop busStop) {
-        Stream<BusAtStop> stream = busAtStopList.stream();
-        boolean answer = stream.anyMatch(e -> e.getBusStop() == busStop);
+        List<BusStop> list = new LinkedList<>();
+        for (BusAtStop busAtStop: busAtStopList){
+            list.add(busAtStop.getBusStop());
+        }
+        Stream<BusStop> stream = list.stream();
+        boolean answer = stream.anyMatch(e -> e == busStop);
         return answer;
     }
 
     public void addBusAtStop(BusAtStop busAtStop) {
-        BusStop busStop = busAtStop.getBusStop();
+        BusStop busStop = busAtStop.getPk().getBusStop();
         if (!isUsed(busStop)) {
             busAtStopList.add(busAtStop);
-            busStop.addRoute(this.getRoute());
+            busStop.addRoute(busAtStop);
         }
     }
 
-    public void deleteBusAtStop(BusAtStop busAtStop) {
-        BusStop busStop = busAtStop.getBusStop();
+    public void removeBusAtStop(BusAtStop busAtStop) {
+        BusStop busStop = busAtStop.getPk().getBusStop();
         busAtStopList.remove(busAtStop);
         busStop.removeRoute(this.getRoute());
     }
@@ -56,7 +67,7 @@ public class RouteWithStops {
     }
     public LocalTime getTimeByBusStop(BusStop busStop){
         Stream<BusAtStop> stream = busAtStopList.stream();
-        Optional busAtStop = stream.filter(e -> e.getBusStop() == busStop)
+        Optional busAtStop = stream.filter(e -> e.getPk().getBusStop() == busStop)
                 .findFirst();
         if (busAtStop == null)
             throw  new RuntimeException("Нет такой остановки");

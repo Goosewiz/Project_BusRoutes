@@ -1,32 +1,35 @@
 package teamscore.gusev.busRoutes.model;
 
+import jakarta.persistence.EntityManager;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 import java.util.stream.Stream;
-
+@RequiredArgsConstructor
 public class BusStopsManager {
     @Getter
     private final List<BusStop> busStopsList = new ArrayList<>();
+    private final EntityManager entityManager;
 
     void addBusStop(BusStop busStop) {
-        if (!busStopsList.contains(busStop))
-            busStopsList.add(busStop);
+        entityManager.getTransaction().begin();
+        entityManager.persist(busStop);
+        entityManager.getTransaction().commit();
     }
 
     void deleteBusStop(BusStop busStop) {
-        if (busStop.getRoutesSet().size() == 0)
-            busStopsList.remove(busStop);
+        entityManager.getTransaction().begin();
+        entityManager.remove(busStop);
+        entityManager.getTransaction().commit();
     }
 
     BusStop findBusStop(String title) {
-        Stream<BusStop> stream = busStopsList.stream();
-        Optional busStop = stream.filter(p -> p.getTitle() == title)
-                .findFirst();
-        BusStop answer = (BusStop) busStop.get();
-        if (answer == null)
-            throw new RuntimeException("Нет такой остановки");
+        String search = "%" + title + "%";
+        BusStop answer = entityManager.createQuery("from BusStop where title ilike :search", BusStop.class)
+                .setParameter("search", search)
+                .getSingleResult();
         return answer;
     }
 
@@ -38,8 +41,17 @@ public class BusStopsManager {
     }
 
     Route[] getAllRoutesBetween(@NonNull BusStop busStop1, @NonNull BusStop busStop2) {
-        Set<Route> temp = busStop1.getRoutesSet();
-        temp.retainAll(busStop2.getRoutesSet());
+        List<BusAtStop> stops1 = busStop1.getBusAtStopList();
+        List<Route> temp = new LinkedList<>();
+        for(BusAtStop busAtStop: stops1){
+            temp.add(busAtStop.getPk().getRouteWithStops().getRoute());
+        }
+        List<BusAtStop> stops2 = busStop1.getBusAtStopList();
+        List<Route> temp2 = new LinkedList<>();
+        for(BusAtStop busAtStop: stops2){
+            temp2.add(busAtStop.getPk().getRouteWithStops().getRoute());
+        }
+        temp.retainAll(temp2);
         Route[] answer = new Route[temp.size()];
         answer = temp.toArray(answer);
         return answer;

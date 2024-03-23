@@ -1,28 +1,34 @@
 package teamscore.gusev.busRoutes.model;
 
+import jakarta.persistence.EntityManager;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+@RequiredArgsConstructor
 public class RoutesManager {
-    @Getter
-    private final List<RouteWithStops> routeWithStopsList = new ArrayList<>();
+    private final EntityManager entityManager;
     void addRouteWithStops(RouteWithStops routeWithStops){
-        if (!routeWithStopsList.contains(routeWithStops))
-            routeWithStopsList.add(routeWithStops);
+        entityManager.getTransaction().begin();
+        entityManager.persist(routeWithStops);
+        entityManager.getTransaction().commit();
     }
     void deleteRouteWithStops(RouteWithStops routeWithStops){
-        routeWithStopsList.remove(routeWithStops);
+        entityManager.getTransaction().begin();
+        entityManager.remove(routeWithStops);
+        entityManager.getTransaction().commit();
     }
 
 
-    List<RouteWithStops> getRoutes(String numberOfRoute) {
-        List<RouteWithStops> answer;
-        Stream<RouteWithStops> stream = routeWithStopsList.stream();
-        answer = stream.filter(p -> p.getRoute().getNumber().equals(numberOfRoute))
-                .toList();
+    List<Route> getRoutes(String numberOfRoute) {
+        List<Route> answer;
+        String number = "%" + numberOfRoute + "%";
+        answer = entityManager.createQuery("from RouteWithStops where route.number ilike :number", Route.class)
+                .setParameter("number", number)
+                .getResultList();
         return answer;
     }
 }
